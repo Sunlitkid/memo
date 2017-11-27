@@ -9,21 +9,25 @@ import com.sunlitkid.memo.MemoDialog;
  */
 public class Main {
     public static void main(String[] args) {
-        MemoDialog dialog = new MemoDialog(500,400);
+        final MemoDialog  dialog = new MemoDialog(500,400);
         dialog.setAlwaysOnTop(true);
-        new Thread(() -> {
-            while (true){
-                try {
-                    Thread.sleep(1000L);
-                } catch (InterruptedException e) {
-                    break;
-                }
-                dialog. hideDialog();
-                //如果窗口已经退出  就关闭程序
-                if(Constant.isExit){
-                    break;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        Thread.sleep(1000L);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                    dialog. hideDialog();
+                    //如果窗口已经退出  就关闭程序
+                    if(Constant.isExit){
+                        break;
+                    }
                 }
             }
-        }).start();
+
+        } ).start();
     }
 }

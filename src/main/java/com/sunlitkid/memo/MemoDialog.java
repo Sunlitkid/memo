@@ -61,7 +61,12 @@ public class MemoDialog extends JDialog {
             PopupMenu popupMenu = new PopupMenu();
             //创建弹出菜单中的退出项
             MenuItem itemExit = new MenuItem("exit");
-            itemExit.addActionListener(e -> System.exit(0));
+            itemExit.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
             popupMenu.add(itemExit);
             //创建托盘图标
             URL url = MemoDialog.class.getResource("/sun_32px.png");
@@ -69,11 +74,14 @@ public class MemoDialog extends JDialog {
             //ImageIcon icon = new ImageIcon("sun_32px.png"); // 创建图片对象
             TrayIcon trayIcon = new TrayIcon(icon.getImage(), "memo",
                     popupMenu);
-            trayIcon.addActionListener(e -> {
-                if(MemoDialog.this.isVisible()){
-                    MemoDialog.this.setVisible(false);
-                }else{
-                    MemoDialog.this.setVisible(true);
+            trayIcon.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (MemoDialog.this.isVisible()) {
+                        MemoDialog.this.setVisible(false);
+                    } else {
+                        MemoDialog.this.setVisible(true);
+                    }
                 }
             });
             //把托盘图标添加到系统托盘

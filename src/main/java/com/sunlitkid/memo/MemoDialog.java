@@ -3,14 +3,13 @@ package com.sunlitkid.memo;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.net.URL;
 
 /**
  * Created by sunke on 2017/11/24.
  */
 public class MemoDialog extends JDialog {
-    //窗口属性
-    private  boolean isMouseIn = false;//鼠标在里面吗
     private  boolean isHidden = false;//是否隐藏了
     private  boolean canDrag = false;//是否可以拖拽
     private Point offset;
@@ -50,11 +49,33 @@ public class MemoDialog extends JDialog {
         textArea.setLineWrap(true);        //激活自动换行功能
         textArea.setWrapStyleWord(true);            // 激活断行不断字功能
         textArea.setMargin(new Insets(ll,ll,ll,ll));
+        /*String string =loadText();
+        textArea.setText(string);*/
         Container container = this.getContentPane();//获取容器
         container.setLayout(new BorderLayout());
         container.add(jScrollPane, BorderLayout.CENTER);
     }
 
+    /*private  String loadText()  {
+        StringBuffer sb = new StringBuffer();
+        try(BufferedReader reader =  new BufferedReader(new InputStreamReader(MemoDialog.class.getResourceAsStream("/text.txt")))){
+            int b ;
+            while((b =  reader.read())!=-1){
+                sb.append((char) b);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  sb.toString();
+    }*/
+
+    /*private  void saveText(String text)  {
+        try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(MemoDialog.class.getResource("/text.txt").openConnection().getOutputStream()))){
+            writer.write(text);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }*/
     private void systemTray() {
         if (SystemTray.isSupported()) { // 判断系统是否支持托盘功能.
             // 创建托盘右击弹出菜单
@@ -64,6 +85,8 @@ public class MemoDialog extends JDialog {
             itemExit.addActionListener(new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+                    //saveText(MemoDialog.this.textArea.getText());
                     System.exit(0);
                 }
             });
@@ -95,7 +118,12 @@ public class MemoDialog extends JDialog {
     }
 
     public  void hideDialog(){
-        if(this.isMouseIn ||this.isHidden){//如果鼠标在里面或者已经隐藏  就跳过
+        Point mousePoint = MouseInfo.getPointerInfo().getLocation();
+        boolean isNotIn = mousePoint.getX()<MemoDialog.this.getX()
+                ||mousePoint.getX()>(MemoDialog.this.getX()+MemoDialog.this.getWidth())
+                ||mousePoint.getY()<MemoDialog.this.getY()
+                ||mousePoint.getY()>(MemoDialog.this.getY()+MemoDialog.this.getWidth());
+        if(!isNotIn ||this.isHidden){//如果鼠标在里面或者已经隐藏  就跳过
             return;
         }
         int top = this.getY();
@@ -129,6 +157,8 @@ public class MemoDialog extends JDialog {
         }
     }
 
+
+
     class MyMouseListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -154,7 +184,6 @@ public class MemoDialog extends JDialog {
         }
         @Override
         public void mouseEntered(MouseEvent e) {
-            MemoDialog.this.isMouseIn =true;
             if(MemoDialog.this.isHidden){//如果窗口是小窗口
                 //恢复
                 int top = MemoDialog.this.getY();
@@ -189,7 +218,6 @@ public class MemoDialog extends JDialog {
         }
         @Override
         public void mouseExited(MouseEvent e) {
-            MemoDialog.this.isMouseIn =false;
         }
     }
 

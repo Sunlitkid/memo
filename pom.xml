@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sunlitkid</groupId>
-    <artifactId>txt</artifactId>
+    <artifactId>memo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>

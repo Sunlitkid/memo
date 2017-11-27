@@ -1,8 +1,10 @@
-package com.sunlitkid.txt;
+package com.sunlitkid.memo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
+
 /**
  * Created by sunke on 2017/11/24.
  */
@@ -17,8 +19,9 @@ public class MemoDialog extends JDialog {
     public MemoDialog(int width,int height){
         this.setSize(width, height);
         this.setLocationRelativeTo(null);// 把窗体设置在屏幕中间
-        ImageIcon icon = new ImageIcon("sun.png");
-        this.setIconImage(icon.getImage());
+        /*URL url = MemoDialog.class.getResource("/sun.png");
+        ImageIcon icon = new ImageIcon(url);
+        this.setIconImage(icon.getImage());*/
         systemTray(); // 设置系统托盘
         // 添加关闭按钮事件，关闭时候实质是把窗体隐藏
         this.addWindowListener(new WindowAdapter() {
@@ -61,7 +64,9 @@ public class MemoDialog extends JDialog {
             itemExit.addActionListener(e -> System.exit(0));
             popupMenu.add(itemExit);
             //创建托盘图标
-            ImageIcon icon = new ImageIcon("sun_32px.png"); // 创建图片对象
+            URL url = MemoDialog.class.getResource("/sun_32px.png");
+            ImageIcon icon = new ImageIcon(url);
+            //ImageIcon icon = new ImageIcon("sun_32px.png"); // 创建图片对象
             TrayIcon trayIcon = new TrayIcon(icon.getImage(), "memo",
                     popupMenu);
             trayIcon.addActionListener(e -> {

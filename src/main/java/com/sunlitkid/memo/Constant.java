@@ -1,4 +1,4 @@
-package com.sunlitkid.txt;
+package com.sunlitkid.memo;
 
 import java.awt.*;
 

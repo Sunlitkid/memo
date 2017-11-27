@@ -1,10 +1,8 @@
 package com.sunlitkid;
 
 
-import com.sunlitkid.txt.Constant;
-import com.sunlitkid.txt.MemoDialog;
-
-import java.util.Arrays;
+import com.sunlitkid.memo.Constant;
+import com.sunlitkid.memo.MemoDialog;
 
 /**
  * Created by sunke on 2017/11/24.
